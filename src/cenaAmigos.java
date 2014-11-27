@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.FileReader;
+import java.io.File;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -18,6 +19,8 @@ public class cenaAmigos {
 				Receta receta = new Receta();
 				System.out.println("\n ¿Cual es el nombre de la receta numero "+(i+1)+"?");
 				receta.setNombreReceta(sc.next());
+				//System.out.println("\n "+receta.getNombreReceta());
+
 
 				System.out.println("\n ¿Cuantos ingredientes tiene?");
 				int cantIngredientes = sc.nextInt();
@@ -46,14 +49,28 @@ public class cenaAmigos {
 							}
 
 					}while((gramos !='s') && (gramos !='n'));
+					ingredientes.add(ingrediente);
 				}		
+				receta.setIngredientes(ingredientes);
+				System.out.println("\n Explicame la preparacion de la receta");
+				receta.setPreparacion(sc.next());
+				recetas.add(receta);
 			}
+			//System.out.println("\n "+recetas);
+			File fichero = new File ("/home/zubiri/ProyectosJava/java2_cenaAmigos/src/cenaAmigos.txt");
+			FileWriter filew = new FileWriter (fichero);
 
+			for (int z=0; z<recetas.size(); z++){
+				//System.out.println("\n "+recetas.get(z).getNombreReceta());
+				filew.write(recetas.get(z).getNombreReceta() + ";");
 
+				for (int j=0; j<ingredientes.size(); j++){
+					filew.write(ingredientes.get(j).getNombreIngrediente()+"*"+ingredientes.get(j).getCantidadGramos()+"*"+ingredientes.get(j).getCantidadUnidad() +"*"+ingredientes.get(j).getEnGramos()+"#");
 
-
-
-
+				}
+				filew.write(";"+recetas.get(z).getPreparacion() + "\n");
+			}
+			filew.close();
 
 	}
 }
